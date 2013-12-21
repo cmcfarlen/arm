@@ -71,7 +71,7 @@ $(PREFIX)/arm-elf/lib/libc.a: $(NEWLIB_TBZ)
 	gzip -cd $(NEWLIB_TBZ) | (cd build; tar -xf -)
 	mkdir build/newlib-$(NEWLIB_VERSION)/build
 	cd build/newlib-$(NEWLIB_VERSION)/build && \
-		../configure --prefix=$(PREFIX) --target=arm-elf --enable-interwork --disable-newlib-supplied-syscalls --with-gnu-ld --with-gnu-as --disable-shared && \
+		../configure --prefix=$(PREFIX) --target=arm-elf --enable-interwork --with-gnu-ld --with-gnu-as --disable-shared && \
 		make -j5 CFLAGS_FOR_TARGET="-ffunction-sections -fdata-sections -DPREFER_SIZE_OVER_SPEED -D__OPTIMIZE_SIZE__ -Os -fomit-frame-pointer -D__BUFSIZ__=256" all && \
 		make install
 
@@ -82,7 +82,7 @@ $(PREFIX)/arm-elf/lib/libstdc++.a:
 		make -j5 all && \
 		make install
 
-gcc: newlib $(PREFIX)/arm-elf/lib/libstdc++.a
+toolchain: newlib $(PREFIX)/arm-elf/lib/libstdc++.a
 
 clean:
 	rm -rf build
